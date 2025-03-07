@@ -6,6 +6,9 @@ use App\Models\User;
 use Mary\Traits\Toast;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 #[Layout('components.layouts.auth')]
 
@@ -26,13 +29,12 @@ class Register extends Component
             'passwordConfirm' => 'required|same:password'
         ]);
 
-        $user = User::create([
-            'username' => $this->username,
-            'email' => $this->email,
-            'password' => bcrypt($this->password)
-        ]);
+        $user = User::create($credential);
 
-        $this->success('Registered successfully', redirectTo: "/login");
+        event(new Registered($user));
+        Auth::login($user);
+        $this->success('Registered successfully', redirectTo: "/profile");
+
     }
     public function render()
     {

@@ -6,7 +6,7 @@ $test = 100;
     class="dark:border-gray-600 border group relative flex flex-col lg:h-[24rem] h-[22rem] w-full lg:min-w-[18rem] min-w-[15rem] lg:max-w-[18rem] max-w-[15rem] p-4 overflow-hidden transition-all rounded-lg shadow-lg">
     <div @class([ 'absolute top-0 left-0 w-full h-[40%]' , 'bg-good'=> $book->total_rating > 75,
         'bg-mid' => $book->total_rating > 50 && $book->total_rating <= 75, 'bg-bad'=> $book->total_rating > 0 &&
-            $book->total_rating <= 50, 'bg-transparent'=> is_null($book->total_rating)
+            $book->total_rating <= 50, 'bg-gray-700'=> is_null($book->total_rating)
                 ])></div>
     <div class="absolute bottom-0 left-0 w-full h-[60%] bg-gray-100 dark:bg-gray-800"></div>
     <div class="flex items-center justify-center mx-auto">

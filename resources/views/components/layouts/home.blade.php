@@ -25,8 +25,8 @@
             <x-menu activate-by-route class="!flex flex-row space-x-2" active-bg-color="bg-blue-700/70 text-white">
                 <x-menu-item title="Home" link="/" />
                 <x-menu-item title="Books" link="/books" />
-                {{--
-                <x-menu-item title="Category" link="/categories" /> --}}
+
+                <x-menu-item title="Category" link="/categories" />
             </x-menu>
         </x-slot:middle>
         <x-slot:actions>
@@ -63,8 +63,8 @@
         active-bg-color="bg-blue-700/70 text-white">
         <x-menu-item title="Home" link="/" />
         <x-menu-item title="Books" link="/books" />
-        {{--
-        <x-menu-item title="Category" link="/categories" /> --}}
+
+        <x-menu-item title="Category" link="/categories" />
     </x-menu>
 
     {{-- MAIN --}}

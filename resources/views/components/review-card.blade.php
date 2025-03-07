@@ -23,14 +23,15 @@
             @endif
             <div class="flex items-center gap-3 p-1 md:p-1">
                 <div class="flex flex-col">
-                    <div class="flex gap-2 mb-1">
+                    <a class="flex gap-2 mb-1 hover:underline"
+                        href="{{ route('homepage.user', $review->user->username) }}" wire:navigate>
                         @if ($review->user->avatar)
                         <img src="{{ asset('storage/'. $review->user->avatar) }}" class="w-8 h-8 rounded-full" alt="" />
                         @else
                         <x-icon name="o-user" class="w-8 h-8 p-1 border rounded-full" />
                         @endif
                         <h1 class="font-medium">{{ $review->user->username }}</h1>
-                    </div>
+                    </a>
                     @if (!$isDetail)
 
                     <div class="">

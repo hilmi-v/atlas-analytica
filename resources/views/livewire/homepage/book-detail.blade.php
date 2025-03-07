@@ -20,7 +20,7 @@
                         <h1 class="mb-2 text-4xl font-bold">{{ $book->title }}</h1>
                         <h2 class="mb-1 text-lg">
                             created at
-                            <span class="font-medium">{{ $book->created_at }}</span>
+                            <span class="font-medium">{{ $book->published_at }}</span>
                             write by
                             <span class="font-medium">{{ $book->author }}</span>
                         </h2>
@@ -51,10 +51,10 @@
                                 <td class="py-1 pl-4">Kategori</td>
                                 <td class="pr-8">:
                                     @foreach ($book->categories as $category)
-                                    <span
-                                        class="inline-block px-2 py-1 mr-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-white">
+                                    <a href="{{ route('homepage.category.detail', $category->slug) }}" wire:navigate
+                                        class="hover:bg-blue-500 dark:hover:bg-blue-500 dark:hover:text-white hover:text-white inline-block px-2 py-1 mr-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-white">
                                         {{ $category->name }}
-                                    </span>
+                                    </a>
                                     @endforeach
                                 </td>
                             </tr>
@@ -66,13 +66,21 @@
     </div>
     <div class="my-12"></div>
     <x-header title="Your Review" size='xl'></x-header>
+
+
     @auth
-    @if ($userReview)
+    @if (Auth::user()->hasVerifiedEmail())
+    @if (!is_null($userReview))
     <x-review-card :review="$userReview" isDetail />
     <x-button class="btn-warning" label="edit review" @click="$wire.createModal = true"></x-button>
     @else
     <x-button class="btn-success" label="add review" @click="$wire.createModal = true"></x-button>
     @endif
+    @else
+    <x-button class="btn-outline" label="verify first" link="/email/verify"></x-button>
+    @endif
+
+
     @endauth
     @guest
     <x-button class="btn-outline" label="login to review" link="/login"></x-button>
@@ -80,6 +88,7 @@
     @endguest
 
     {{-- modal --}}
+    @auth
     <x-modal wire:model="createModal" persistent class=" backdrop-blur">
         <x-header title="Write" size='lg' separator></x-header>
         <div class="flex flex-col space-y-2">
@@ -95,7 +104,7 @@
 
         </x-slot:actions>
     </x-modal>
-
+    @endauth
 
     {{-- review List --}}
     <div class="my-12"></div>

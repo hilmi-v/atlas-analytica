@@ -41,10 +41,17 @@ class BookDetail extends Component
     public function render()
     {
         $book = Book::where('slug', $this->slug)->with('categories')->first();
-        $reviews = $book->reviews()->with('user')->where('user_id', '!=', Auth::user()->id)->paginate(6);
-        $userReview = $book->reviews()->with('user')->where('user_id', Auth::user()->id)->first();
-        $this->rating = $userReview ? $userReview->rating : $this->rating;
-        $this->review = $userReview ? $userReview->review : $this->review;
+        $reviews = $book->reviews()->with('user')
+            ->when(Auth::check(), function ($query) {
+                return $query->where('user_id', '!=', Auth::user()->id);
+            })
+            ->paginate(6);
+        $userReview = $book->reviews()->with('user')
+            ->when(Auth::check(), function ($query) {
+                return $query->where('user_id', Auth::user()->id);
+            })->first();
+        $this->rating = $userReview ?? $this->rating;
+        $this->review = $userReview ?? $this->review;
         return view('livewire.homepage.book-detail', ['book' => $book, 'reviews' => $reviews, 'userReview' => $userReview]);
     }
 }

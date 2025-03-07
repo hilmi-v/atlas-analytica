@@ -14,10 +14,11 @@ class Categories extends Component
     public $search = '';
     public function render()
     {
-        $categories = Category::when($this->search, function ($query) {
-            $query->where('name', 'like', "%{$this->search}%");
-        })
-            ->paginate(20);
+        $categories = Category::withCount('books')
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
+            ->paginate(16);
         return view('livewire.homepage.categories', compact('categories'));
     }
 }
